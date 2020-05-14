@@ -1,5 +1,6 @@
 
-source ~/.vim/vimrc
+execute 'source' fnamemodify(expand('<sfile>'), ':h').'/config/main.vim'
 
-" neovim use different viminfo
-set viminfo     ='100,n$HOME/.vim/.files/info/nviminfo
+"neovim use different viminfo file
+set viminfo     +=n$HOME/.vim/.cache/info/nviminfo
+
