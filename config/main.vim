@@ -59,6 +59,7 @@ let g:vim_cache =$HOME . '/.cache/vim/'
 if !isdirectory(g:vim_cache) && exists('*mkdir')
   call mkdir(g:vim_cache)
 endif
+
 " backup files
 if !isdirectory(g:vim_cache . 'backup') && exists('*mkdir')
   call mkdir(g:vim_cache . 'backup')
@@ -67,30 +68,65 @@ set backup
 let &backupdir  =g:vim_cache . 'backup/'
 set backupext   =.bak
 set backupskip  =
+
 " swap files
 let &directory  =g:vim_cache . 'swap/'
 set updatecount =100
+
 " undo files
 set undofile
 let &undodir    =g:vim_cache . 'undo/'
+
+" viminfo files
+if !isdirectory(g:vim_cache . 'info') && exists('*mkdir')
+  call mkdir(g:vim_cache . 'info')
+endif
+if has('nvim')
+  let &viminfofile=g:vim_cache . 'info/nviminfo'
+else
+  let &viminfofile=g:vim_cache . 'info/viminfo'
+endif
+"" set viminfo     =g:vim_cache . 'info/viminfo'
+"" execute 'set viminfo+=n'.escape(g:vim_cache . 'info/inviminfo', ' ')
+
 " netrw files
 let g:netrw_home=g:vim_cache . 'netrw/'
 
 
 " statusline
-set statusline  =
-set statusline +=%1*\ %n%*              "buffer number
-set statusline +=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}%*      "encoding
-set statusline +=%5*\ %{&ff}%*          "file format
-set statusline +=%3*\ %y%*              "file type
-set statusline +=%4*\ %<%F%*            "full path
-set statusline +=%2*%m%r%w%*            "modified flag
-set statusline +=%1*%5l%*               "current line
-set statusline +=%2*/%L%*               "total lines
-set statusline +=%1*(%p%%)%*            "position percent
-set statusline +=%1*%3v%*               "virtual column number
-set statusline +=%1*%=%*                "spacer
-set statusline +=%2*0x%04B\ %*          "character under cursor
+" set statusline  =
+" set statusline +=%1*\ %n%*              "buffer number
+" set statusline +=%3*\ %{''.(&fenc!=''?&fenc:&enc).''}%*      "encoding
+" set statusline +=%5*\ %{&ff}%*          "file format
+" set statusline +=%3*\ %y%*              "file type
+" set statusline +=%4*\ %<%F%*            "full path
+" set statusline +=%2*%m%r%w%*            "modified flag
+" set statusline +=%1*%5l%*               "current line
+" set statusline +=%2*/%L%*               "total lines
+" set statusline +=%1*(%p%%)%*            "position percent
+" set statusline +=%1*%3v%*               "virtual column number
+" set statusline +=%1*%=%*                "spacer
+" set statusline +=%2*0x%04B\ %*          "character under cursor
 
 "set statusline+=%3*\ %{(&bomb?\",BOM\":\"\")}\            "Encoding2
 "set statusline  =%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v]\ [%p%%]
+
+" use default theme color
+set statusline  =
+set statusline +=\ %{''.(&fenc!=''?&fenc:&enc).''}      "encoding
+set statusline +=(%{&ff})          "file format
+set statusline +=\ %y              "file type
+set statusline +=\ %<%F            "full path
+set statusline +=%m%r%w            "modified flag
+set statusline +=%5l               "current line
+set statusline +=/%L               "total lines
+set statusline +=(%p%%)            "position percent
+set statusline +=%3v               "virtual column number
+set statusline +=%=                "spacer
+set statusline +=0x%04B            "character under cursor
+set statusline +=\ -%n-\             "buffer number
+
+" vim-plug plugin manager
+call plug#begin('~/.vim/package')
+Plug 'dracula/vim', { 'as' : 'dracula' }
+call plug#end()
